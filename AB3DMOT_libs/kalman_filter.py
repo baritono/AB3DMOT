@@ -1,6 +1,7 @@
 import numpy as np
 from filterpy.kalman import KalmanFilter, UnscentedKalmanFilter, MerweScaledSigmaPoints
 
+
 class Filter(object):
 	def __init__(self, bbox3D, info, ID):
 
@@ -9,6 +10,7 @@ class Filter(object):
 		self.id = ID
 		self.hits = 1           		# number of total hits including the first detection
 		self.info = info        		# other information associated	
+
 
 class KF(Filter):
 	def __init__(self, bbox3D, info, ID):

@@ -2,6 +2,7 @@ import numpy as np, json
 from numba import jit
 from xinshuo_io import fileparts
 
+
 @jit
 def rotx(t):
     """Rotation about the x-axis."""
@@ -10,6 +11,7 @@ def rotx(t):
     return np.array([[1,  0,  0],
                      [0,  c, -s],
                      [0,  s,  c]])
+
 
 @jit
 def roty(t):
@@ -20,6 +22,7 @@ def roty(t):
                      [0,  1,  0],
                      [-s, 0,  c]])
 
+
 @jit
 def rotz(t):
     """Rotation about the z-axis."""
@@ -29,12 +32,14 @@ def rotz(t):
                      [s,  c,  0],
                      [0,  0,  1]])
 
+
 @jit
 def transform_from_rot_trans(R, t):
     """Transforation matrix from rotation matrix and translation vector."""
     R = R.reshape(3, 3)
     t = t.reshape(3, 1)
     return np.vstack((np.hstack([R, t]), [0, 0, 0, 1]))
+
 
 @jit
 def _poses_from_oxts(oxts_packets):
@@ -72,6 +77,7 @@ def _poses_from_oxts(oxts_packets):
         poses.append(transform_from_rot_trans(R, t - t_0))      # store transformation matrix
 
     return np.stack(poses)
+
 
 def load_oxts(oxts_file):
     """Load OXTS data from file."""
@@ -112,7 +118,8 @@ def load_oxts(oxts_file):
     imu_poses = _poses_from_oxts(oxts_packets)      # seq_frames x 4 x 4
 
     return imu_poses
-    
+
+
 def get_ego_traj(imu_poses, frame, pref, futf, inverse=False, only_fut=False):
     # compute the motion of the ego vehicle for ego-motion compensation
     # using the current frame as the coordinate
@@ -155,6 +162,7 @@ def get_ego_traj(imu_poses, frame, pref, futf, inverse=False, only_fut=False):
         return fut_xyz, fut_rot_list, left, right
     else:
         return all_xyz, all_rot_list, left, right
+
 
 def egomotion_compensation_ID(traj_id, calib, ego_rot_imu, ego_xyz_imu, left, right, mask=None):
     # traj_id           # N x 3

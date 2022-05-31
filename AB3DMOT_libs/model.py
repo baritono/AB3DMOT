@@ -1,5 +1,6 @@
 # Author: Xinshuo Weng
 # email: xinshuo.weng@gmail.com
+from typing import List
 
 import numpy as np, os, copy, math
 from AB3DMOT_libs.box import Box3D
@@ -10,6 +11,7 @@ from xinshuo_miscellaneous import print_log
 from xinshuo_io import mkdir_if_missing
 
 np.set_printoptions(suppress=True, precision=3)
+
 
 # A Baseline of 3D Multi-Object Tracking
 class AB3DMOT(object):			  	
@@ -23,7 +25,7 @@ class AB3DMOT(object):
 		self.log = log
 
 		# counter
-		self.trackers = []
+		self.trackers: List[KF] = []
 		self.frame_count = 0
 		self.ID_count = [ID_init]
 		self.id_now_output = []

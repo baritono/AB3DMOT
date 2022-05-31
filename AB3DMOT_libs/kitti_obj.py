@@ -8,6 +8,7 @@ def read_label(label_filename):
     objects = [Object_3D(line) for line in lines]
     return objects
 
+
 class Object_3D(object):
     # modified from https://github.com/kuixu/kitti_object_vis/blob/master/kitti_util.py, MIT license
     def __init__(self, label_file_line=None, obj_type=None, trunc=None, occ=None, alpha=None, \

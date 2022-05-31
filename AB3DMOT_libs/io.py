@@ -1,36 +1,56 @@
 # Author: Xinshuo Weng
 # email: xinshuo.weng@gmail.com
 
+from typing import Tuple, List, Union, Dict
+
 import warnings, numpy as np, os
 from xinshuo_io import mkdir_if_missing, load_txt_file, save_txt_file
 
-################## loading
+# 1D array representing 1 detected object in a single frame. Elements in the array are as follows:
+# Frame Index | Type | 2D BBOX (x1, y1, x2, y2) | Score | 3D BBOX (h, w, l, x, y, z, rot_y) | Alpha |
+Detection = np.ndarray
+# 2D array of detections, each element is a Detection.
+Detections = np.ndarray
+# 1D array of a 3D BBox (h, w, l, x, y, z, rot_y)
+ThreeDimBBox = np.ndarray
+# 2D array of 3D BBoxes, each element is a ThreeDimBBox.
+ThreeDimBBoxes = np.ndarray
+# 1D array for additional information of a detected object (besides the 3D bounding box.
+# Type | 2D BBOX (x1, y1, x2, y2) | Score | Alpha |
+AdditionalInfo = np.ndarray
+# 2D array of additional information, each element is an AdditionalInfo
+AdditionalInfos = np.ndarray
+# key "dets" -> ThreeDimBBoxes
+# key "info" -> AdditionalInfos
+SingleFrameDetections = Dict[str, np.ndarray]
 
-def load_detection(file):
 
-	# load from raw file
+# *************** loading ***************
+def load_detection(file: str) -> Tuple[Union[List, Detections], bool]:
 	with warnings.catch_warnings():
 		warnings.simplefilter("ignore")
-		dets = np.loadtxt(file, delimiter=',') 	# load detections, N x 15
+		detections = np.loadtxt(file, delimiter=',') 	# load detections, N x 15
 
-	if len(dets.shape) == 1: dets = np.expand_dims(dets, axis=0) 	
-	if dets.shape[1] == 0:		# if no detection in a sequence
+	if len(detections.shape) == 1:
+		detections = np.expand_dims(detections, axis=0)
+	if detections.shape[1] == 0:		# if no detection in a sequence
 		return [], False
 	else:
-		return dets, True
+		return detections, True
 
-def get_frame_det(dets_all, frame):
-	
-	# get irrelevant information associated with an object, not used for associationg
-	ori_array = dets_all[dets_all[:, 0] == frame, -1].reshape((-1, 1))		# orientation
-	other_array = dets_all[dets_all[:, 0] == frame, 1:7] 					# other information, e.g, 2D box, ...
-	additional_info = np.concatenate((ori_array, other_array), axis=1)		
+
+def get_frame_det(detections_all_frames: Detections, frame_index: int) -> SingleFrameDetections:
+	# get irrelevant information associated with an object, not used for association.
+	orientation_array = detections_all_frames[detections_all_frames[:, 0] == frame_index, -1].reshape((-1, 1))
+	# other information, e.g, 2D box, ...
+	other_array = detections_all_frames[detections_all_frames[:, 0] == frame_index, 1:7]
+	additional_info = np.concatenate((orientation_array, other_array), axis=1)
 
 	# get 3D box
-	dets = dets_all[dets_all[:, 0] == frame, 7:14]		
+	detections = detections_all_frames[detections_all_frames[:, 0] == frame_index, 7:14]
 
-	dets_frame = {'dets': dets, 'info': additional_info}
-	return dets_frame
+	return {'dets': detections, 'info': additional_info}
+
 
 def load_highlight(file):
 	# load file with each line containing seq_id, frame_id, ID, error_type
@@ -58,8 +78,8 @@ def load_highlight(file):
 		
 	return data_dict
 
-#################### saving
 
+# *************** saving ***************
 def get_saving_dir(eval_dir_dict, seq_name, save_dir, num_hypo):
 
 	# create dir and file for saving
@@ -73,8 +93,8 @@ def get_saving_dir(eval_dir_dict, seq_name, save_dir, num_hypo):
 
 	return eval_file_dict, save_trk_dir, affinity_dir, affinity_vis
 
-def save_results(res, save_trk_file, eval_file, det_id2str, frame, score_threshold):
 
+def save_results(res, save_trk_file, eval_file, det_id2str, frame, score_threshold):
 	# box3d in the format of h, w, l, x, y, z, theta in camera coordinate
 	bbox3d_tmp, id_tmp, ori_tmp, type_tmp, bbox2d_tmp_trk, conf_tmp = \
 		res[0:7], res[7], res[8], det_id2str[res[9]], res[10:14], res[14] 		
@@ -92,9 +112,9 @@ def save_results(res, save_trk_file, eval_file, det_id2str, frame, score_thresho
 			bbox3d_tmp[0], bbox3d_tmp[1], bbox3d_tmp[2], bbox3d_tmp[3], bbox3d_tmp[4], bbox3d_tmp[5], bbox3d_tmp[6], conf_tmp)
 		eval_file.write(str_to_srite)
 
+
 def save_affinity(affi_data, save_path):
 	######### save txt files for faster check, with aligned formatting
-
 	# compute the number of digit for the largest values for better alignment of saving
 	min_val, max_val = np.min(affi_data), np.max(affi_data)
 	biggest = max(abs(min_val), abs(max_val))
@@ -116,6 +136,7 @@ def save_affinity(affi_data, save_path):
 	# save
 	fmt = '%%%d.%df' % (num_digit, decimals)
 	np.savetxt(save_path, affi_data, fmt=fmt, delimiter=', ')
+
 
 def combine_files(file_list, save_path, sort=True):
 	# combine txt files and sort them in frame order, used to collect results from 

@@ -2,7 +2,10 @@
 
 ## Dataset Preparation
 
-* Please download the official [KITTI multi object tracking](http://www.cvlibs.net/datasets/kitti/eval_tracking.php) dataset (mainly left color images, velodyne point cloud, GPS/IMU data, training labels and camera calibration data are needed). Then uncompress, and put the data under "./data/KITTI" folder (either hard copy or soft symbolic link) in the following structure:
+Please download the official [KITTI multi object tracking](http://www.cvlibs.net/datasets/kitti/eval_tracking.php) 
+dataset (mainly left color images, velodyne point cloud, GPS/IMU data, training labels and camera
+calibration data are needed). Then uncompress, and put the data under "./data/KITTI" folder (either
+hard copy or soft symbolic link) in the following structure:
 ```
 AB3DMOT
 ├── data
@@ -18,7 +21,11 @@ AB3DMOT
 
 ## 3D Object Detection
 
-For convenience, we provide the 3D detection of PointRCNN on the KITTI MOT dataset at "./data/KITTI/detection". Our detection results follow the format of the KITTI 3D Object Detection Challenge (format definition can be found in the object development toolkit here: http://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=3d) except that the order is switched. We show an example of detection as follows:
+For convenience, we provide the 3D detection of PointRCNN on the KITTI MOT dataset at 
+"./data/KITTI/detection". Our detection results follow the format of the KITTI 3D Object Detection
+Challenge (format definition can be found in the object development toolkit here: 
+http://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=3d) except that the order is
+switched. We show an example of detection as follows:
 
 Frame |   Type  |   2D BBOX (x1, y1, x2, y2)  | Score |    3D BBOX (h, w, l, x, y, z, rot_y)      | Alpha | 
 ------|:-------:|:---------------------------:|:-----:|:-----------------------------------------:|:-----:|
@@ -32,7 +39,14 @@ To run our tracker on the KITTI MOT validation set with the provided PointRCNN d
 python3 main.py --dataset KITTI --det_name pointrcnn
 ```
 
-In detail, running above command will generate a folder named "pointrcnn_val_H1" that includes results combined from all categories, and also folders named "pointrcnn_category_val_H1" representing results for each category. Under each result folder, "./data_0" subfolders are used for MOT evaluation, which follow the format of the KITTI Multi-Object Tracking Challenge (format definition can be found in the tracking development toolkit here: http://www.cvlibs.net/datasets/kitti/eval_tracking.php). Also, "./trk_withid_0" subfolders are used for visualization only, which follow the format of KITTI 3D Object Detection challenge except that we add an ID in the last column.
+In detail, running above command will generate a folder named "pointrcnn_val_H1" that includes
+results combined from all categories, and also folders named "pointrcnn_category_val_H1" 
+representing results for each category. Under each result folder, "./data_0" subfolders are used
+for MOT evaluation, which follow the format of the KITTI Multi-Object Tracking Challenge (format
+definition can be found in the tracking development toolkit here: 
+http://www.cvlibs.net/datasets/kitti/eval_tracking.php). Also, "./trk_withid_0" subfolders are 
+used for visualization only, which follow the format of KITTI 3D Object Detection challenge except
+that we add an ID in the last column.
 
 To run our tracker on the test set with the provided PointRCNN detections, one can simply run:
 ```
