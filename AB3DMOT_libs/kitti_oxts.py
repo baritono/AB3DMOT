@@ -1,6 +1,6 @@
 import numpy as np, json
 from numba import jit
-from xinshuo_io import fileparts
+from xinshuo_miscellaneous.file_io import fileparts
 
 
 @jit

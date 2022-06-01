@@ -7,8 +7,8 @@ from AB3DMOT_libs.box import Box3D
 from AB3DMOT_libs.matching import data_association
 from AB3DMOT_libs.kalman_filter import KF
 from AB3DMOT_libs.vis import vis_obj
-from xinshuo_miscellaneous import print_log
-from xinshuo_io import mkdir_if_missing
+from xinshuo_miscellaneous.logger import print_log
+from xinshuo_miscellaneous.file_io import mkdir_if_missing
 
 np.set_printoptions(suppress=True, precision=3)
 
@@ -178,7 +178,7 @@ class AB3DMOT(object):
 		import cv2 
 		from PIL import Image
 		from AB3DMOT_libs.vis import draw_box3d_image
-		from xinshuo_visualization import random_colors
+		from xinshuo_miscellaneous.visualization import random_colors
 
 		dets, trks = copy.copy(dets), copy.copy(trks)
 		img = np.array(Image.open(img))

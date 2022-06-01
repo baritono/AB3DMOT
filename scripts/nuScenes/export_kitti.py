@@ -41,7 +41,7 @@ import os, sys, json, numpy as np, fire
 from typing import List, Dict, Any
 from shutil import copyfile
 from pyquaternion import Quaternion
-from xinshuo_io import mkdir_if_missing, load_list_from_folder, fileparts
+from xinshuo_miscellaneous.file_io import mkdir_if_missing, load_list_from_folder, fileparts
 
 # load nuScenes libraries
 from nuscenes import NuScenes

@@ -4,7 +4,7 @@
 from typing import Tuple, List, Union, Dict
 
 import warnings, numpy as np, os
-from xinshuo_io import mkdir_if_missing, load_txt_file, save_txt_file
+from xinshuo_miscellaneous.file_io import mkdir_if_missing, load_txt_file, save_txt_file
 
 # 1D array representing 1 detected object in a single frame. Elements in the array are as follows:
 # Frame Index | Type | 2D BBOX (x1, y1, x2, y2) | Score | 3D BBOX (h, w, l, x, y, z, rot_y) | Alpha |

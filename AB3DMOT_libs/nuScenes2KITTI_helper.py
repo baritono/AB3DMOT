@@ -7,7 +7,7 @@ from nuscenes.eval.tracking.utils import category_to_tracking_name
 from nuscenes.utils.data_classes import Box, LidarPointCloud
 from nuscenes.utils.kitti import KittiDB
 from nuscenes.utils.geometry_utils import transform_matrix, BoxVisibility
-from xinshuo_io import load_txt_file
+from xinshuo_miscellaneous.file_io import load_txt_file
 
 def load_correspondence(corr_file):
     data, num_line = load_txt_file(corr_file)

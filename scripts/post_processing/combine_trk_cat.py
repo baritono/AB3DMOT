@@ -6,7 +6,7 @@
 import os, argparse
 from AB3DMOT_libs.io import combine_files
 from AB3DMOT_libs.utils import find_all_frames, get_subfolder_seq, Config
-from xinshuo_io import mkdir_if_missing, is_path_exists
+from xinshuo_miscellaneous.file_io import mkdir_if_missing, is_path_exists
 
 def parse_args():
     parser = argparse.ArgumentParser(description='AB3DMOT')

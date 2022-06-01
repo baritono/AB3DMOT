@@ -9,3 +9,5 @@ glob2==0.6
 PyYAML==5.4
 easydict==1.9
 llvmlite==0.38.0
+nuscenes-devkit==1.1.9
+pyquaternion==0.9.9

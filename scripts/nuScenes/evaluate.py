@@ -18,7 +18,7 @@ from nuscenes.eval.tracking.render import recall_metric_curve, summary_plot
 from nuscenes.eval.tracking.utils import print_final_metrics
 
 # load additional libraries
-from xinshuo_io import fileparts
+from xinshuo_miscellaneous.file_io import fileparts
 
 class TrackingEval:
     """

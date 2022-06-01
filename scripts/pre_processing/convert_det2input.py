@@ -4,11 +4,11 @@
 # combine the detection txt from each frame to a single txt per sequence including detection results at all frames
 # used to create input files for AB3DMOT
 
-import numpy as np, os, argparse
-from AB3DMOT_libs.utils import Config, get_subfolder_seq
+import os, argparse
+from AB3DMOT_libs.utils import get_subfolder_seq
 from AB3DMOT_libs.nuScenes2KITTI_helper import load_correspondence, load_correspondence_inverse
 from AB3DMOT_libs.kitti_obj import read_label
-from xinshuo_io import mkdir_if_missing, load_list_from_folder, load_txt_file, fileparts, is_path_exists
+from xinshuo_miscellaneous.file_io import mkdir_if_missing, is_path_exists
 
 def parse_args():
     parser = argparse.ArgumentParser(description='AB3DMOT')

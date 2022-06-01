@@ -1,7 +1,7 @@
 import numpy as np, cv2, os
 from AB3DMOT_libs.box import Box3D
 from AB3DMOT_libs.kitti_obj import Object_3D
-from xinshuo_io import load_txt_file
+from xinshuo_miscellaneous.file_io import load_txt_file
 
 # read tracklet data in the KITTI tracking results format, one file per sequence
 
